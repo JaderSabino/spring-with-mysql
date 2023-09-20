@@ -1,0 +1,14 @@
+version: '3'
+services:
+  mysqldb:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+    networks:
+      - rede-spring-with-mysql
+    volumes:
+      - volume-spring-with-mysql:/var/lib/mysql
+networks:
+  rede-spring-with-mysql:
+volumes:
+  volume-spring-with-mysql:
