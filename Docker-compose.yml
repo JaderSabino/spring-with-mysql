@@ -1,5 +1,16 @@
-version: '3'
+version: '3.8'
 services:
+
+  mysqldb:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root123
+      - MYSQL_DATABASE=spring-with-mysql
+    networks:
+      - rede-spring-with-mysql
+    volumes:
+      - volume-spring-with-mysql:/var/lib/mysql
+
   app:
     build:
       context: ./app
@@ -7,21 +18,11 @@ services:
       - rede-spring-with-mysql
     ports:
       - 8080:8080
-#    environment:
-#      SPRING_PROFILES_ACTIVE: prod
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
     depends_on:
       - mysqldb
-  mysqldb:
-    image: mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root123
-      MYSQL_DATABASE: spring-with-mysql
-    networks:
-      - rede-spring-with-mysql
-    volumes:
-      - volume-spring-with-mysql:/var/lib/mysql
-    ports:
-      - 3326:3306
+
 networks:
   rede-spring-with-mysql:
 volumes:
