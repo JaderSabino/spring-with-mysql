@@ -6,12 +6,14 @@ import com.springwithmysql.repositorios.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Service
 public class PessoaService {
     @Autowired
-    PessoaRepository pessoaRepository;
+    private PessoaRepository pessoaRepository;
 
     public PessoaDTO criarPessoa(PessoaDTO pessoa) {
         PessoaEntity pessoaEntity = new PessoaEntity(
@@ -21,14 +23,14 @@ public class PessoaService {
                 pessoa.getIdade()
         );
 
-        pessoaEntity = pessoaRepository.criarPessoa(pessoaEntity);
+        pessoaEntity = pessoaRepository.save(pessoaEntity);
         pessoa.setId(pessoaEntity.getId());
 
         return pessoa;
     }
 
     public PessoaDTO getPessoa(Integer id) {
-        PessoaEntity pessoaEntity = pessoaRepository.getPessoa(id);
+        PessoaEntity pessoaEntity = pessoaRepository.findById(id).orElse(null);
 
         if (Objects.isNull(pessoaEntity))
             return null;
@@ -43,5 +45,26 @@ public class PessoaService {
         pessoaDTO.setId(pessoaEntity.getId());
 
         return pessoaDTO;
+    }
+
+    public List<PessoaDTO> getPessoas() {
+        List<PessoaEntity> pessoasEntity = pessoaRepository.findAll();
+
+        List<PessoaDTO> pessoas = new ArrayList<>();
+
+        pessoasEntity.forEach(pessoa -> {
+            PessoaDTO pessoaDTO = new PessoaDTO(
+                    pessoa.getNome(),
+                    pessoa.getSobrenome(),
+                    pessoa.getEmail(),
+                    pessoa.getIdade()
+            );
+
+            pessoaDTO.setId(pessoa.getId());
+
+            pessoas.add(pessoaDTO);
+        });
+
+        return pessoas;
     }
 }

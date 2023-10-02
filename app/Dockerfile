@@ -17,6 +17,8 @@ RUN apk update && \
 # Adicione o diretório bin do JDK ao PATH
 ENV PATH=$JDK_HOME/bin:$PATH
 
+ENV SPRING_PROFILES_ACTIVE=prod
+
 # Copie os arquivos da aplicação para o diretório de trabalho
 COPY ./target/spring-with-mysql-0.0.1-SNAPSHOT.jar .
 

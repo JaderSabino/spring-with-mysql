@@ -1,11 +1,28 @@
 package com.springwithmysql.entitys;
 
-public class PessoaEntity {
+import jakarta.persistence.*;
+
+import java.io.Serializable;
+
+@Entity
+@Table(name = "pessoa")
+public class PessoaEntity implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column
     private String nome;
+    @Column
     private String sobrenome;
+    @Column
     private String email;
+    @Column
     private Integer idade;
+
+    public PessoaEntity(Integer id, String nome, String sobrenome, String email, Integer idade) {
+        this(nome, sobrenome, email, idade);
+        this.id = id;
+    }
 
     public PessoaEntity(String nome, String sobrenome, String email, Integer idade) {
         this.nome = nome;
@@ -13,6 +30,8 @@ public class PessoaEntity {
         this.email = email;
         this.idade = idade;
     }
+
+    public PessoaEntity() {}
 
     public Integer getId() {
         return id;

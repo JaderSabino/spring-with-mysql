@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -21,7 +22,7 @@ public class PessoaController {
         return ResponseEntity.ok(pessoaDto);
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<PessoaDTO> getPessoa(@PathVariable Integer id) {
         PessoaDTO pessoaDTO = pessoaService.getPessoa(id);
         if (Objects.isNull(pessoaDTO)) {
@@ -29,6 +30,12 @@ public class PessoaController {
         } else {
             return ResponseEntity.ok(pessoaDTO);
         }
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<PessoaDTO>> getPessoa() {
+        List<PessoaDTO> pessoasDTO = pessoaService.getPessoas();
+        return ResponseEntity.ok(pessoasDTO);
     }
 
 }
